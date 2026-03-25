@@ -207,7 +207,7 @@ export default function CoffeeOrderPage() {
       <nav className="top-nav">
         <span style={{ 
           marginRight: '40px', 
-          fontFamily: "'Noto Serif KR', serif", 
+          fontFamily: "'Pretendard', serif", 
           fontSize: '1.3rem', 
           fontWeight: 700, 
           paddingBottom: '12px',
@@ -216,7 +216,7 @@ export default function CoffeeOrderPage() {
           Grid&Circle
         </span>
         <a className="nav-tab active" href="#">상품 목록</a>
-        <a className="nav-tab" href="/order-history">주문 조회</a>
+        <a className="nav-tab" href="/customer/orders/search">주문 조회</a>
       </nav>
       <div style={{ maxWidth: '860px', margin: '0 auto' }}>
         <h1 style={{ marginTop: '48px' }}>상품 목록</h1>

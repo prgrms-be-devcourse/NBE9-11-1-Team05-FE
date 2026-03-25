@@ -1,42 +1,56 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap');
+/* ─── 테마 토큰 ─────────────────────────────────── */
+:root {
+  color-scheme: light dark;
 
+  --color-coffee-dark:  #4B3621;
+  --color-coffee-mid:   #C2A679;
+  --color-coffee-light: #F5F5DC;
 
+  /* 라이트모드 시맨틱 토큰 */
+  --background:  var(--color-coffee-light);
+  --foreground:  var(--color-coffee-dark);
+
+  --bg:          var(--color-coffee-light);
+  --card-bg:     var(--color-coffee-light);
+  --border:      var(--color-coffee-mid);
+  --text-dark:   var(--color-coffee-dark);
+  --text-mid:    var(--color-coffee-dark);
+  --text-light:  var(--color-coffee-mid);
+  --accent:      var(--color-coffee-mid);
+  --accent-dark: var(--color-coffee-dark);
+  --btn-bg:      var(--color-coffee-mid);
+  --btn-text:    var(--color-coffee-light);
+  --delete-bg:   var(--color-coffee-light);
+  --shadow:      0 2px 12px rgba(75, 54, 33, 0.08);
+}
+
+/* ─── Tailwind v4 테마 연결 ──────────────────────── */
+@theme inline {
+  --color-background:   var(--background);
+  --color-foreground:   var(--foreground);
+  --font-sans:          'Pretendard', sans-serif;
+  --font-mono:          var(--font-geist-mono);
+  --color-coffee-dark:  var(--color-coffee-dark);
+  --color-coffee-mid:   var(--color-coffee-mid);
+  --color-coffee-light: var(--color-coffee-light);
+}
+
+/* ─── 베이스 ────────────────────────────────────── */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  color-scheme: light; 
-  
-  --color-coffee-dark: #4B3621;
-  --color-coffee-mid: #C2A679;
-  --color-coffee-light: #F5F5DC;
-
-  --bg: var(--color-coffee-light);
-  --card-bg: #ffffff;
-  --border: var(--color-coffee-mid);
-  --text-dark: var(--color-coffee-dark);
-  --text-mid: var(--color-coffee-dark);
-  --text-light: var(--color-coffee-mid);
-  --accent: var(--color-coffee-mid);
-  --accent-dark: var(--color-coffee-dark);
-  --btn-bg: var(--color-coffee-mid);
-  --btn-text: #fff;
-  --delete-bg: var(--color-coffee-light);
-  --shadow: 0 2px 12px rgba(75, 54, 33, 0.08);
-}
-
 
 * { box-sizing: border-box; }
 
 body {
   background-color: var(--bg) !important;
   color: var(--text-dark) !important;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', sans-serif;
   min-height: 100vh;
   padding: 28px 16px;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C2A679' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2H4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .top-nav {
@@ -53,7 +67,7 @@ body {
 }
 
 .nav-tab {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', sans-serif;
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -74,7 +88,7 @@ body {
 }
 
 h1 {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -133,7 +147,7 @@ h1 {
 .product-info { flex: 1; min-width: 0; }
 
 .product-name {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -182,7 +196,7 @@ h1 {
 }
 
 .product-price {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -221,7 +235,7 @@ h1 {
 }
 
 .summary h2 {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -306,14 +320,14 @@ h1 {
 }
 
 .summary-total-label {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .summary-total-amount {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-dark);
@@ -324,7 +338,7 @@ h1 {
   padding: 14px;
   background: var(--accent);
   color: var(--btn-text);
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.05rem;
   font-weight: 700;
   border: none;
@@ -428,7 +442,7 @@ h1 {
 .form-close:hover { opacity: 1; }
 
 .form-title {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.45rem;
   font-weight: 700;
   text-align: center;
@@ -482,7 +496,7 @@ h1 {
   border-bottom: 1.5px solid var(--color-coffee-mid);
   background: transparent;
   padding: 4px 2px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', sans-serif;
   font-size: 0.88rem;
   color: var(--color-coffee-dark);
   outline: none;
@@ -542,7 +556,7 @@ h1 {
 }
 .form-item-qty { font-size: 0.7rem; color: var(--color-coffee-mid); margin-top: 1px; }
 .form-item-price {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--color-coffee-dark);
@@ -559,14 +573,14 @@ h1 {
 }
 
 .form-total-label {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1rem;
   font-weight: 700;
   color: var(--color-coffee-dark);
 }
 
 .form-total-amount {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--color-coffee-dark);
@@ -580,7 +594,7 @@ h1 {
   border: 2px solid var(--color-coffee-dark);
   border-radius: 6px;
   padding: 12px 44px;
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
@@ -598,7 +612,7 @@ h1 {
 .done-view.show { display: block; }
 .done-icon { font-size: 2.6rem; margin-bottom: 14px; }
 .done-view h3 {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--color-coffee-dark);
@@ -617,7 +631,7 @@ h1 {
   border: 2px solid var(--color-coffee-dark);
   border-radius: 6px;
   padding: 11px 32px;
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Pretendard', serif;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
