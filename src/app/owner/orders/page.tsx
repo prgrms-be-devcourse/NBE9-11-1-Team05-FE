@@ -114,7 +114,6 @@ export default function OrderManagementPage() {
     배송완료: "DELIVERED",
   };
 
-  // ✅ 다시 복구된 필터 로직
   const filterOrdersByTime = (orders: Order[]) => {
     const now = new Date();
 
@@ -142,7 +141,7 @@ export default function OrderManagementPage() {
   return (
     <div className="h-screen flex bg-[#F5F5DC] text-[#4B3621] overflow-hidden">
       
-      {/* 왼쪽 */}
+      {/* left */}
       <div className="w-[65%] p-6 flex flex-col border-r border-[#C2A679]/40 overflow-y-auto">
 
         <div className="text-3xl font-extrabold mb-6">Grid & Circles</div>
@@ -168,7 +167,7 @@ export default function OrderManagementPage() {
         />
       </div>
 
-      {/* 오른쪽 */}
+      {/* right */}
       <div className="w-[35%] p-6">
         {selectedOrder && (
           <OrderDetail

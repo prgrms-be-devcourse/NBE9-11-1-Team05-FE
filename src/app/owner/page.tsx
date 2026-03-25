@@ -116,7 +116,7 @@ export default function InventoryPage() {
   return (
     <div className="h-screen flex bg-[var(--color-background)] text-[var(--color-coffee-dark)] overflow-hidden">
 
-      {/* LEFT */}
+      {/* left */}
       <div className="w-[65%] p-6 flex flex-col border-r border-[var(--color-coffee-mid)]/40 overflow-y-auto">
 
         <div className="text-3xl font-extrabold mb-6">
@@ -183,7 +183,7 @@ export default function InventoryPage() {
         )}
       </div>
 
-      {/* RIGHT */}
+      {/* right */}
       <div className="w-[35%] p-6">
         {isEditOpen && selectedCoffee && (
           <div className="h-full flex flex-col bg-white/40 p-5 rounded-md border border-[var(--color-coffee-mid)]/40">
@@ -242,7 +242,6 @@ export default function InventoryPage() {
 
               </div>
 
-              {/* ✅ 메시지 위치 (버튼 바로 위) */}
               {message && (
                 <div className="mb-2 rounded border border-green-300 bg-green-50 px-4 py-2 text-sm text-green-700 text-center">
                   {message}

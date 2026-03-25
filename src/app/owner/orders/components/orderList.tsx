@@ -19,9 +19,6 @@ export default function OrderList({
 }: Props) {
   return (
     <>
-      {/* ❌ 기존 상단 (가게이름 + 버튼) 제거됨 */}
-
-      {/* ✅ 필터만 유지 */}
       <div className="mb-5">
         <div
           className="inline-flex items-center gap-2 cursor-pointer select-none text-sm font-medium"
