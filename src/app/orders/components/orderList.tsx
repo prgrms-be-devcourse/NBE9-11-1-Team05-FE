@@ -19,7 +19,10 @@ export default function OrderList({
 }: Props) {
   return (
     <>
-      {/* Top Buttons */}
+      <div className="text-2xl font-bold mb-6 text-[#4B3621]">
+        gird&circles
+      </div>
+
       <div className="flex gap-2 mb-6">
         <button className="px-4 py-2 rounded-md border border-[#C2A679] text-[#4B3621] bg-[#F5F5DC] hover:bg-[#C2A679]/20 transition">
           재고 관리
@@ -29,7 +32,6 @@ export default function OrderList({
         </button>
       </div>
 
-      {/* Toggle */}
       <div className="mb-5">
         <div
           className="inline-flex items-center gap-2 cursor-pointer select-none text-sm font-medium"
@@ -43,12 +45,11 @@ export default function OrderList({
             />
           </div>
           <span className="text-[#4B3621]/80">
-            전일 14시 ~ 당일 14시 주문건 조회
+            전일 14시 ~ 당일 14시 주문 건 조회
           </span>
         </div>
       </div>
 
-      {/* Orders */}
       <div className="flex flex-col gap-3 overflow-y-auto flex-1 pr-2">
         {orders.map((order) => {
           const isActive = selectedOrder?.id === order.id;
@@ -63,9 +64,8 @@ export default function OrderList({
                   : "bg-white/40 border-[#C2A679]/40 hover:bg-white/60"
               }`}
             >
-              {/* Left */}
               <div className="flex flex-col gap-1">
-                <span className="text-lg font-bold">{order.id}</span>
+                <span className="text-lg font-bold">#{order.id}</span>
                 <span className="text-sm">{order.email}</span>
                 <span
                   className={`text-xs ${
@@ -76,10 +76,9 @@ export default function OrderList({
                 </span>
               </div>
 
-              {/* Right */}
               <div className="flex flex-col items-end justify-between">
                 <button
-                  onClick={() => onSelectOrder(order)} // ⭐ 버튼만 클릭됨
+                  onClick={() => onSelectOrder(order)}
                   className={`px-3 py-2 text-sm rounded-md transition ${
                     isActive
                       ? "bg-white text-[#4B3621]"
