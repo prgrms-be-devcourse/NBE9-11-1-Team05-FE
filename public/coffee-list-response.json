@@ -1,0 +1,19 @@
+{
+  "message": "전체 상품 조회 성공",
+  "data": [
+    {
+      "id": 1,
+      "name": "에티오피아 예가체프 G1",
+      "description": "꽃향, 시트러스, 밝은 산미",
+      "price": 32000,
+      "quantity": 42
+    },
+    {
+      "id": 2,
+      "name": "콜롬비아 수프리모",
+      "description": "고소함, 초콜릿, 균형 잡힌 바디",
+      "price": 28500,
+      "quantity": 12
+    }
+  ]
+}
