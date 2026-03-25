@@ -19,19 +19,9 @@ export default function OrderList({
 }: Props) {
   return (
     <>
-      <div className="text-2xl font-bold mb-6 text-[#4B3621]">
-        gird&circles
-      </div>
+      {/* ❌ 기존 상단 (가게이름 + 버튼) 제거됨 */}
 
-      <div className="flex gap-2 mb-6">
-        <button className="px-4 py-2 rounded-md border border-[#C2A679] text-[#4B3621] bg-[#F5F5DC] hover:bg-[#C2A679]/20 transition">
-          재고 관리
-        </button>
-        <button className="px-4 py-2 rounded-md bg-[#4B3621] text-white shadow-sm">
-          주문 관리
-        </button>
-      </div>
-
+      {/* ✅ 필터만 유지 */}
       <div className="mb-5">
         <div
           className="inline-flex items-center gap-2 cursor-pointer select-none text-sm font-medium"

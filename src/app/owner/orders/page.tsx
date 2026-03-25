@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import OrderList from "@/app/orders/components/orderList";
-import OrderDetail from "@/app/orders/components/orderDetail";
+import { useRouter } from "next/navigation";
+import OrderList from "@/app/owner/orders/components/orderList";
+import OrderDetail from "@/app/owner/orders/components/orderDetail";
 import {
   getOwnerOrders,
   getOrderDetail,
@@ -25,7 +26,6 @@ export type OrderItem = {
   quantity: number;
 };
 
-// 서버 날짜 -> yyyy-MM-dd  HH:mm:ss 형태로 반환
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
 
@@ -41,6 +41,8 @@ const formatDate = (dateString: string) => {
 };
 
 export default function OrderManagementPage() {
+  const router = useRouter();
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -53,64 +55,52 @@ export default function OrderManagementPage() {
   }, []);
 
   const fetchOrders = async () => {
-    try {
-      const data = await getOwnerOrders();
+    const data = await getOwnerOrders();
 
-      const mapped = data.orders.map((o) => ({
-        id: o.id,
-        email: o.email,
-        date: formatDate(o.orderedAt),
-        total: o.totalAmount,
-        items: [],
-        address: "",
-        zip: "",
-      }));
+    const mapped = data.orders.map((o) => ({
+      id: o.id,
+      email: o.email,
+      date: formatDate(o.orderedAt),
+      total: o.totalAmount,
+      items: [],
+      address: "",
+      zip: "",
+    }));
 
-      setOrders(mapped);
-    } catch (e) {
-      console.error(e);
-    }
+    setOrders(mapped);
   };
 
   const handleSelectOrder = async (order: Order) => {
-    try {
-      const o = await getOrderDetail(order.id);
+    const o = await getOrderDetail(order.id);
 
-      const mapped = {
-        id: o.ordersId,
-        email: o.email,
-        date: formatDate(o.orderedAt),
-        total: o.coffeeList.reduce(
-          (sum: number, item: any) =>
-            sum + item.price * item.quantity,
-          0
-        ),
-        zip: o.zipCode,
-        address: o.address,
-        items: o.coffeeList.map((item: any) => ({
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-      };
+    const mapped = {
+      id: o.ordersId,
+      email: o.email,
+      date: formatDate(o.orderedAt),
+      total: o.coffeeList.reduce(
+        (sum: number, item: any) =>
+          sum + item.price * item.quantity,
+        0
+      ),
+      zip: o.zipCode,
+      address: o.address,
+      items: o.coffeeList.map((item: any) => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+    };
 
-      setSelectedOrder(mapped);
+    setSelectedOrder(mapped);
 
-      setOrderStatuses((prev) => ({
-        ...prev,
-        [o.ordersId]: o.orderStatus,
-      }));
-    } catch (e) {
-      console.error(e);
-    }
+    setOrderStatuses((prev) => ({
+      ...prev,
+      [o.ordersId]: o.orderStatus,
+    }));
   };
 
   const changeStatus = async (orderId: number, status: string) => {
-    try {
-      await updateOrderStatus(orderId, status as any);
-    } catch (e) {
-      console.error(e);
-    }
+    await updateOrderStatus(orderId, status as any);
   };
 
   const statusToKorean: any = {
@@ -124,10 +114,17 @@ export default function OrderManagementPage() {
     배송완료: "DELIVERED",
   };
 
-  // 전일 14시 ~ 당일 14시 필터
+  // ✅ 다시 복구된 필터 로직
   const filterOrdersByTime = (orders: Order[]) => {
+    const now = new Date();
+
     const today14 = new Date();
     today14.setHours(14, 0, 0, 0);
+
+    // 현재 시간이 14시 이전이면 기준을 전날 14시로 맞춤
+    if (now < today14) {
+      today14.setDate(today14.getDate() - 1);
+    }
 
     const start = new Date(today14);
     start.setDate(start.getDate() - 1);
@@ -147,6 +144,21 @@ export default function OrderManagementPage() {
       
       {/* 왼쪽 */}
       <div className="w-[65%] p-6 flex flex-col border-r border-[#C2A679]/40 overflow-y-auto">
+
+        <div className="text-3xl font-extrabold mb-6">Grid & Circles</div>
+
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => router.push("/owner")}
+            className="px-4 py-2 rounded-md border border-[#C2A679] bg-[#F5F5DC]"
+          >
+            재고 관리
+          </button>
+          <button className="px-4 py-2 rounded-md bg-[#4B3621] text-white">
+            주문 관리
+          </button>
+        </div>
+
         <OrderList
           orders={displayedOrders}
           onSelectOrder={handleSelectOrder}
@@ -157,7 +169,7 @@ export default function OrderManagementPage() {
       </div>
 
       {/* 오른쪽 */}
-      <div className="w-[35%] p-6 h-full overflow-hidden">
+      <div className="w-[35%] p-6">
         {selectedOrder && (
           <OrderDetail
             order={selectedOrder}
