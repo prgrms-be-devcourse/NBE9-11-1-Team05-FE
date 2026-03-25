@@ -148,6 +148,16 @@ export default function CoffeeOrderPage() {
       return;
     }
 
+    const addressRegex = /^[가-힣]+시\s+[가-힣]+구\s+[가-힣0-9]+로\s+\d+$/;
+    if (!addressRegex.test(orderInfo.address.trim())) {
+      showToast('주소는 "서울시 강남구 테헤란로 123" 형식으로 입력해주세요.');
+      return;
+    }
+    if (orderInfo.zip.length !== 5) {
+      showToast('우편번호는 5자리 숫자로 입력해주세요.');
+      return;
+    }
+
     const orderPayload = {
       email: orderInfo.email,
       address: orderInfo.address,
@@ -328,7 +338,10 @@ export default function CoffeeOrderPage() {
                     </div>
                     <div className="form-field">
                       <label>우편번호</label>
-                      <input type="text" value={orderInfo.zip} onChange={e => setOrderInfo({...orderInfo, zip: e.target.value})} placeholder="00000" maxLength={5} />
+                      <input type="text" value={orderInfo.zip} onChange={e =>{
+                          const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                          setOrderInfo({...orderInfo, zip: onlyNumbers});
+                        }} placeholder="00000" maxLength={5} />
                     </div>
                   </div>
 
