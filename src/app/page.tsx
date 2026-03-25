@@ -1,19 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-
-type Coffee = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-};
-
-type ApiRes<T> = {
-  message: string;
-  data: T;
-};
+import { Coffee, getCoffees, updateCoffee } from "@/api/coffees";
 
 type CoffeeForm = {
   name: string;
@@ -21,8 +9,6 @@ type CoffeeForm = {
   price: string;
   quantity: string;
 };
-
-const API_BASE_URL = "http://localhost:8080";
 
 export default function InventoryPage() {
   const [coffees, setCoffees] = useState<Coffee[]>([]);
@@ -52,16 +38,7 @@ export default function InventoryPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch(`${API_BASE_URL}/coffees`, {
-          cache: "no-store",
-        });
-
-        const result: ApiRes<Coffee[]> = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message || "상품 목록 조회에 실패했습니다.");
-        }
-
+        const result = await getCoffees();
         setCoffees(result.data);
       } catch (err) {
         if (err instanceof Error) {
@@ -100,26 +77,12 @@ export default function InventoryPage() {
       setMessage("");
       setError("");
 
-      const payload = {
+      const result = await updateCoffee(selectedId, {
         name: form.name.trim(),
         description: form.description.trim(),
         price: Number(form.price),
         quantity: Number(form.quantity),
-      };
-
-      const response = await fetch(`${API_BASE_URL}/coffees/${selectedId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
       });
-
-      const result: ApiRes<Coffee> = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "상품 수정에 실패했습니다.");
-      }
 
       setCoffees((prev) =>
         prev.map((coffee) =>
@@ -147,9 +110,9 @@ export default function InventoryPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#efe8cf] px-6 py-8 text-[#3f2f1f]">
+    <main className="min-h-screen bg-coffee-light px-6 py-8 text-coffee-dark">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-        <header className="flex items-center justify-between border-b border-[#c9bca1] pb-4">
+        <header className="flex items-center justify-between border-b border-coffee-mid pb-4">
           <h1 className="text-2xl font-bold">Grids & Circles</h1>
           <div className="text-sm font-semibold">재고 관리</div>
         </header>
@@ -167,7 +130,7 @@ export default function InventoryPage() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-          <section className="rounded-md border border-[#d4c7aa] bg-[#f7f0de] p-5">
+          <section className="rounded-md border border-coffee-mid bg-[#fbf8ef] p-5">
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold">재고 관리</h2>
@@ -176,11 +139,11 @@ export default function InventoryPage() {
             </div>
 
             {loading ? (
-              <div className="flex min-h-[420px] items-center justify-center rounded-md border border-dashed border-[#ccbfa3] bg-[#fbf6e8] text-center text-[#8b7e67]">
+              <div className="flex min-h-[420px] items-center justify-center rounded-md border border-dashed border-coffee-mid bg-white text-center text-[#8b7e67]">
                 상품 목록을 불러오는 중입니다.
               </div>
             ) : coffees.length === 0 ? (
-              <div className="flex min-h-[420px] items-center justify-center rounded-md border border-dashed border-[#ccbfa3] bg-[#fbf6e8] text-center text-[#8b7e67]">
+              <div className="flex min-h-[420px] items-center justify-center rounded-md border border-dashed border-coffee-mid bg-white text-center text-[#8b7e67]">
                 등록된 상품이 없습니다.
               </div>
             ) : (
@@ -188,14 +151,14 @@ export default function InventoryPage() {
                 {coffees.map((coffee) => (
                   <li
                     key={coffee.id}
-                    className="flex items-center justify-between rounded-md border border-[#ccbfa3] bg-[#fbf6e8] px-4 py-4"
+                    className="flex items-center justify-between rounded-md border border-coffee-mid bg-white px-4 py-4"
                   >
                     <div className="flex-1">
                       <div className="text-lg font-bold">{coffee.name}</div>
                       <div className="mt-1 text-sm text-[#7b6b55]">
                         {coffee.description}
                       </div>
-                      <div className="mt-2 flex gap-6 text-sm text-[#5b3f25]">
+                      <div className="mt-2 flex gap-6 text-sm text-coffee-dark">
                         <span>가격: {coffee.price.toLocaleString()}원</span>
                         <span>수량: {coffee.quantity}개</span>
                       </div>
@@ -204,7 +167,7 @@ export default function InventoryPage() {
                     <button
                       type="button"
                       onClick={() => openEditPanel(coffee)}
-                      className="rounded border border-[#7a5d3f] px-3 py-2 text-sm font-semibold text-[#5b3f25]"
+                      className="rounded border border-coffee-dark px-3 py-2 text-sm font-semibold text-coffee-dark"
                     >
                       수정하기
                     </button>
@@ -214,7 +177,7 @@ export default function InventoryPage() {
             )}
           </section>
 
-          <section className="relative rounded-md border border-[#d4c7aa] bg-[#f7f0de] p-5">
+          <section className="relative rounded-md border border-coffee-mid bg-[#fbf8ef] p-5">
             <h2 className="mb-4 text-2xl font-bold">상품 수정</h2>
 
             {isEditOpen && selectedCoffee ? (
@@ -228,7 +191,7 @@ export default function InventoryPage() {
                     onChange={(e) =>
                       setForm((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="w-full rounded border border-[#cbbda2] bg-[#fffaf0] px-3 py-2 text-sm outline-none"
+                    className="w-full rounded border border-coffee-mid bg-white px-3 py-2 text-sm outline-none"
                   />
                 </label>
 
@@ -242,7 +205,7 @@ export default function InventoryPage() {
                     onChange={(e) =>
                       setForm((prev) => ({ ...prev, price: e.target.value }))
                     }
-                    className="w-full rounded border border-[#cbbda2] bg-[#fffaf0] px-3 py-2 text-sm outline-none"
+                    className="w-full rounded border border-coffee-mid bg-white px-3 py-2 text-sm outline-none"
                   />
                 </label>
 
@@ -256,7 +219,7 @@ export default function InventoryPage() {
                     onChange={(e) =>
                       setForm((prev) => ({ ...prev, quantity: e.target.value }))
                     }
-                    className="w-full rounded border border-[#cbbda2] bg-[#fffaf0] px-3 py-2 text-sm outline-none"
+                    className="w-full rounded border border-coffee-mid bg-white px-3 py-2 text-sm outline-none"
                   />
                 </label>
 
@@ -273,7 +236,7 @@ export default function InventoryPage() {
                         description: e.target.value,
                       }))
                     }
-                    className="w-full resize-none rounded border border-[#cbbda2] bg-[#fffaf0] px-3 py-2 text-sm outline-none"
+                    className="w-full resize-none rounded border border-coffee-mid bg-white px-3 py-2 text-sm outline-none"
                   />
                 </label>
 
@@ -281,14 +244,14 @@ export default function InventoryPage() {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="w-full rounded bg-[#5b3f25] px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+                    className="w-full rounded bg-coffee-dark px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
                   >
                     {saving ? "저장 중..." : "SAVE"}
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsEditOpen(false)}
-                    className="w-full rounded border border-[#8f7c62] px-4 py-2 text-sm font-bold"
+                    className="w-full rounded border border-coffee-mid px-4 py-2 text-sm font-bold text-coffee-dark"
                   >
                     CANCEL
                   </button>
