@@ -38,7 +38,7 @@ export default function OrderSearchPage() {
         <div className="max-w-2xl mx-auto px-4 py-7">
 
             <div className="flex justify-end mb-2">
-                <Link href="/orders" className="text-sm text-coffee-mid hover:text-coffee-dark transition-colors">
+                <Link href="/customer/coffees" className="text-sm text-coffee-mid hover:text-coffee-dark transition-colors">
                     주문 페이지로 →
                 </Link>
             </div>
